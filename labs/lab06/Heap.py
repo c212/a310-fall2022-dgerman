@@ -3,20 +3,20 @@ class Heap:
     self.key = key
     self.right = None
     self.left = None
-  def remove(self):
-    if self.right == None and self.left == None:
-      return None
-    elif self.right == None:
-      return self.left
-    else: 
-      if (self.left.key < self.right.key): 
-        self.key = self.left.key
-        self.left = self.left.remove()
-        return self
-      else: 
-        self.key = self.right.key
-        self.right = self.right.remove()
-        return self
+  def remove(self):                                     # this is the code we added in class
+    if self.right == None and self.left == None:        #
+      return None                                       #
+    elif self.right == None:                            #
+      return self.left                                  #
+    else:                                               #
+      if (self.left.key < self.right.key):              #
+        self.key = self.left.key                        #
+        self.left = self.left.remove()                  #
+        return self                                     #
+      else:                                             #
+        self.key = self.right.key                       #
+        self.right = self.right.remove()                #
+        return self                                     # 
   def size(self):
     if self.left == None and self.right == None:
       return 1
@@ -107,17 +107,17 @@ class Heap:
     lines = [first_line, second_line] + [a + u * ' ' + b for a, b in zipped_lines]
     return lines, n + m + u, max(p, q) + 2, n + u // 2
 
-def removeTop(heap):
-  if heap == None:
-    return None
-  else:
-    return heap.remove()
-
-def display(heap):
-  if heap == None:
-    print(None)
-  else:
-    heap.display()
+def removeTop(heap):            # these are the two wrappers that I added just now (after the lab)  
+  if heap == None:              # they would not be necessary if we used the null object design pattern 
+    return None                 #
+  else:                         #
+    return heap.remove()        #
+                                #
+def display(heap):              #
+  if heap == None:              #
+    print(None)                 #
+  else:                         #
+    heap.display()              # please also see how these are called in the tests below
 
 import random
 
@@ -126,15 +126,15 @@ b.display()
 for _ in range(8, 3, -1):
   print("----------------( now inserting " + str(_) + " )--")
   b.insert(_)
-  b.display()
-for _ in range(4, 9):
-  print("----( now deleting )----")
-  b = removeTop(b)
-  display(b)
-print("----( still deleting )----")
-b = removeTop(b)
-display(b)
-print("----( still deleting )----")
-b = removeTop(b)
-display(b)
+  b.display()                   # so far so good (there was no chance of None thus far  
+for _ in range(4, 9):                        # now we change how we ask for display and remove 
+  print("----( now deleting )----")          # 
+  b = removeTop(b)                           # 
+  display(b)                                 # 
+print("----( still deleting )----")          # 
+b = removeTop(b)                             # 
+display(b)                                   # 
+print("----( still deleting )----")          # 
+b = removeTop(b)                             # 
+display(b)                                   # 
 
