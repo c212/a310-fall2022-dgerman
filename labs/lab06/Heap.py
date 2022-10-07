@@ -126,7 +126,7 @@ b.display()
 for _ in range(8, 3, -1):
   print("----------------( now inserting " + str(_) + " )--")
   b.insert(_)
-  b.display()                   # so far so good (there was no chance of None thus far  
+  b.display()                   # so far so good (there was no chance of None thus far)  
 for _ in range(4, 9):                        # now we change how we ask for display and remove 
   print("----( now deleting )----")          # 
   b = removeTop(b)                           # 
