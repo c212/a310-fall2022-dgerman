@@ -3,7 +3,59 @@ class Heap:
     self.key = key
     self.right = None
     self.left = None
-  def remove(self):                                     # this is the code we added in class
+    
+# lab code starts here ------------------------------------------------(09/22/2023)----------
+
+  def remove(self):
+    path = "{0:b}".format(self.size())
+    value = self.helper(path[1:])
+    self.key = value
+    # cut that from the tree
+    p = self
+    last = path[-1]
+    for c in path[1:-1]:
+      # print(c)
+      if c == "0":
+        p = p.left
+      else:
+        p = p.right
+    if last == "0":
+      p.left = None
+    else:
+      p.right = None
+    self.clean()
+    return self
+
+  def clean(self):
+    if self.left == None and self.right == None:
+      pass
+    elif self.right == None:
+      if self.key > self.left.key:
+        (self.left.key, self.key) = (self.key, self.left.key)
+        # self.left.clean()
+    else:
+      if self.key <= self.left.key and self.key <= self.right.key:
+        pass
+      if self.left.key < self.right.key:
+        (self.left.key, self.key) = (self.key, self.left.key)
+        self.left.clean()
+      else:
+        (self.right.key, self.key) = (self.key, self.right.key)
+        self.right.clean()
+
+  def helper(self, path):
+    # print(path, self.key)
+    if path == "1": return self.right.key
+    elif path == "0": return self.left.key
+    else:
+      nextStep = path[0]
+      if nextStep == '0':
+        return self.left.helper(path[1:])
+      else:
+        return self.right.helper(path[1:])
+    
+  def removeOld(self):                                  # this is the code we added in class
+# lab code ends here --------------------------------------------------(09/22/2023)----------
     if self.right == None and self.left == None:        #
       return None                                       #
     elif self.right == None:                            #
@@ -110,6 +162,8 @@ class Heap:
 def removeTop(heap):            # these are the two wrappers that I added just now (after the lab)  
   if heap == None:              # they would not be necessary if we used the null object design pattern 
     return None                 #
+  elif heap.left == heap.right == None:
+    return None
   else:                         #
     return heap.remove()        #
                                 #
@@ -121,20 +175,14 @@ def display(heap):              #
 
 import random
 
-b = Heap(9)
+b = Heap(1)
 b.display()
-for _ in range(8, 3, -1):
+for _ in [2, 3, 7, 5, 6]:
   print("----------------( now inserting " + str(_) + " )--")
   b.insert(_)
   b.display()                   # so far so good (there was no chance of None thus far)  
-for _ in range(4, 9):                        # now we change how we ask for display and remove 
-  print("----( now deleting )----")          # 
-  b = removeTop(b)                           # 
-  display(b)                                 # 
-print("----( still deleting )----")          # 
-b = removeTop(b)                             # 
-display(b)                                   # 
-print("----( still deleting )----")          # 
-b = removeTop(b)                             # 
-display(b)                                   # 
-
+for _ in range(7):
+  print("Removing top of heap now ... heap becomes:" )
+  b = removeTop(b)
+  display(b)
+  
